@@ -1,0 +1,1444 @@
+/* ==========================================================================
+   SMALLVILLE RETRO FAN PAGE - STYLESHEET (EDIÇÃO SUPREMA ANOS 2000)
+   Banner oficial enviado pelo usuário, fotos de Clark, guia das 7 Kryptonitas,
+   e Linha do Tempo Ilustrada.
+   ========================================================================== */
+ 
+:root {
+  --bg-color: #0b0c10;
+  --bg-darker: #050608;
+  --panel-bg: #151821;
+  --panel-header: linear-gradient(180deg, #383e4d 0%, #20242e 50%, #14171f 100%);
+  --krypton-green: #00ff66;
+  --krypton-glow: rgba(0, 255, 102, 0.45);
+  --smallville-blue: #0044cc;
+  --smallville-red: #cc0000;
+  --text-main: #e0e6ed;
+  --text-muted: #95a2b3;
+  --text-bright: #ffffff;
+  --border-bevel-light: #525a6b;
+  --border-bevel-dark: #090a0d;
+  --winamp-bg: #1a1d23;
+  --winamp-screen: #001a08;
+  --font-system: "Verdana", "Tahoma", "Trebuchet MS", sans-serif;
+  --font-digital: "VT323", monospace, "Courier New";
+  --font-title: "Orbitron", "Impact", "Trebuchet MS", sans-serif;
+  --font-newspaper: "Special Elite", "Courier New", monospace, serif;
+}
+ 
+/* Modo Kryptonita Vermelha */
+body.red-kryptonite-mode {
+  --krypton-green: #ff2233 !important;
+  --krypton-glow: rgba(255, 34, 51, 0.65) !important;
+  --panel-header: linear-gradient(180deg, #5c181f 0%, #3a0d13 50%, #20070b 100%) !important;
+  --border-bevel-light: #882230 !important;
+}
+ 
+/* Reset básico */
+* {
+  box-sizing: border-box;
+  margin: 0;
+  padding: 0;
+}
+ 
+body {
+  background-color: var(--bg-color);
+  background-image: 
+    radial-gradient(circle at 50% 0%, rgba(0, 68, 204, 0.18) 0%, transparent 60%),
+    linear-gradient(rgba(255, 255, 255, 0.02) 1px, transparent 1px),
+    linear-gradient(90deg, rgba(255, 255, 255, 0.02) 1px, transparent 1px);
+  background-size: 100% 100%, 20px 20px, 20px 20px;
+  color: var(--text-main);
+  font-family: var(--font-system);
+  font-size: 13px;
+  line-height: 1.5;
+  min-height: 100vh;
+  position: relative;
+  overflow-x: hidden;
+}
+ 
+/* Canvas de Partículas de Meteoros */
+.meteor-canvas {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100vw;
+  height: 100vh;
+  pointer-events: none;
+  z-index: 1;
+}
+ 
+/* Scanlines retrô sutis */
+.scanlines-overlay {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100vw;
+  height: 100vh;
+  background: repeating-linear-gradient(
+    0deg,
+    rgba(0, 0, 0, 0.12) 0px,
+    rgba(0, 0, 0, 0.12) 1px,
+    transparent 1px,
+    transparent 2px
+  );
+  pointer-events: none;
+  z-index: 9999;
+}
+ 
+/* Barra de Notícias (Marquee) */
+.marquee-bar {
+  background: #000000;
+  border-bottom: 2px solid var(--krypton-green);
+  color: var(--krypton-green);
+  font-family: var(--font-digital);
+  font-size: 18px;
+  letter-spacing: 1px;
+  padding: 4px 0;
+  overflow: hidden;
+  white-space: nowrap;
+  box-shadow: 0 0 12px var(--krypton-glow);
+  position: relative;
+  z-index: 10;
+}
+ 
+.marquee-content {
+  display: inline-block;
+  animation: marqueeScroll 40s linear infinite;
+}
+ 
+.marquee-content span {
+  margin-right: 50px;
+}
+ 
+@keyframes marqueeScroll {
+  0% { transform: translateX(100vw); }
+  100% { transform: translateX(-100%); }
+}
+ 
+/* Wrapper Central */
+.page-wrapper {
+  max-width: 1200px;
+  margin: 0 auto;
+  padding: 12px;
+  position: relative;
+  z-index: 5;
+}
+ 
+/* ==========================================================================
+   CABEÇALHO RETRÔ COM O BANNER OFICIAL ENVIADO
+   ========================================================================== */
+ 
+.retro-header {
+  border: 3px outset var(--border-bevel-light);
+  background: #0d0f14;
+  margin-bottom: 12px;
+  box-shadow: 0 6px 22px rgba(0, 0, 0, 0.9);
+  position: relative;
+  overflow: hidden;
+}
+ 
+.header-banner {
+  background-image: 
+    linear-gradient(90deg, rgba(8,12,20,0.94) 0%, rgba(8,14,25,0.75) 50%, rgba(5,7,10,0.94) 100%),
+    url("assets/images/small.jpg");
+  background-size: cover;
+  background-position: center;
+  background-repeat: no-repeat;
+  background-color: #080c14;
+  min-height: 300px;
+  position: relative;
+}
+
+.banner-content {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  justify-content: space-between;
+  padding: 20px 24px;
+  gap: 16px;
+}
+ 
+.krypton-badge {
+  display: inline-block;
+  background: rgba(0, 0, 0, 0.85);
+  border: 1px solid var(--krypton-green);
+  color: var(--krypton-green);
+  font-size: 11px;
+  font-weight: bold;
+  padding: 3px 10px;
+  margin-bottom: 6px;
+  letter-spacing: 1px;
+  box-shadow: 0 0 10px var(--krypton-glow);
+}
+ 
+.main-title .title-smallville {
+  display: block;
+  font-family: var(--font-title);
+  font-size: 42px;
+  font-weight: 900;
+  letter-spacing: 5px;
+  color: #ffffff;
+  text-shadow: 
+    0 0 8px #fff,
+    0 0 18px var(--smallville-blue),
+    0 0 30px var(--smallville-blue),
+    3px 3px 0 #000;
+  text-transform: uppercase;
+  line-height: 1;
+}
+ 
+.main-title .title-sub {
+  display: block;
+  font-family: var(--font-title);
+  font-size: 11px;
+  font-weight: 700;
+  color: #ffcc00;
+  letter-spacing: 2px;
+  margin-top: 4px;
+  text-shadow: 1px 1px 3px #000;
+}
+ 
+.tagline {
+  color: #c5d7ed;
+  font-style: italic;
+  font-size: 11px;
+  margin-top: 6px;
+  text-shadow: 1px 1px 3px #000;
+}
+ 
+/* Winamp Widget */
+.winamp-player {
+  background: var(--winamp-bg);
+  border: 2px outset #5a6477;
+  border-radius: 4px;
+  width: 310px;
+  box-shadow: 0 4px 14px rgba(0, 0, 0, 0.95), inset 1px 1px 0 #8b99b5;
+  padding: 5px;
+}
+ 
+.winamp-titlebar {
+  background: linear-gradient(90deg, #142850, #27496d);
+  color: #fff;
+  font-size: 10px;
+  font-weight: bold;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: 3px 5px;
+  margin-bottom: 4px;
+  border: 1px solid #0c1830;
+}
+ 
+.winamp-dots {
+  color: #ffbb00;
+  font-size: 8px;
+}
+ 
+.winamp-screen {
+  background: var(--winamp-screen);
+  border: 2px inset #050b06;
+  padding: 6px;
+  margin-bottom: 5px;
+}
+ 
+.winamp-track-name {
+  color: var(--krypton-green);
+  font-family: var(--font-digital);
+  font-size: 16px;
+  overflow: hidden;
+  white-space: nowrap;
+  text-shadow: 0 0 6px var(--krypton-glow);
+}
+ 
+.winamp-display-row {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  color: #55bb77;
+  font-family: var(--font-digital);
+  font-size: 15px;
+  margin-top: 3px;
+}
+ 
+.winamp-time {
+  color: #ffffff;
+  font-size: 17px;
+  font-weight: bold;
+}
+ 
+/* Barras do Equalizador */
+.equalizer-bars {
+  display: flex;
+  gap: 2px;
+  height: 20px;
+  align-items: flex-end;
+  margin-top: 4px;
+  border-top: 1px dashed #004411;
+  padding-top: 2px;
+}
+ 
+.equalizer-bars .bar {
+  flex: 1;
+  background: #00aa44;
+  height: 4px;
+  transition: height 0.12s ease;
+}
+ 
+.equalizer-bars.playing .bar {
+  animation: eqPulse 0.35s infinite alternate ease-in-out;
+}
+ 
+.equalizer-bars.playing .bar:nth-child(2) { animation-delay: 0.1s; }
+.equalizer-bars.playing .bar:nth-child(3) { animation-delay: 0.22s; }
+.equalizer-bars.playing .bar:nth-child(4) { animation-delay: 0.14s; }
+.equalizer-bars.playing .bar:nth-child(5) { animation-delay: 0.28s; }
+.equalizer-bars.playing .bar:nth-child(6) { animation-delay: 0.05s; }
+.equalizer-bars.playing .bar:nth-child(7) { animation-delay: 0.18s; }
+.equalizer-bars.playing .bar:nth-child(8) { animation-delay: 0.32s; }
+.equalizer-bars.playing .bar:nth-child(9) { animation-delay: 0.11s; }
+.equalizer-bars.playing .bar:nth-child(10) { animation-delay: 0.25s; }
+.equalizer-bars.playing .bar:nth-child(11) { animation-delay: 0.16s; }
+.equalizer-bars.playing .bar:nth-child(12) { animation-delay: 0.07s; }
+ 
+@keyframes eqPulse {
+  0% { height: 3px; background: #00aa44; }
+  50% { height: 14px; background: #ffff00; }
+  100% { height: 20px; background: #ff3333; }
+}
+ 
+.winamp-controls {
+  display: flex;
+  align-items: center;
+  gap: 4px;
+  background: #232730;
+  padding: 4px 6px;
+  border: 1px inset #121419;
+}
+ 
+.winamp-btn {
+  background: linear-gradient(180deg, #535b6b 0%, #2f343d 50%, #1f2228 100%);
+  border: 1px outset #768196;
+  color: #fff;
+  font-size: 10px;
+  font-weight: bold;
+  padding: 4px 7px;
+  cursor: pointer;
+  border-radius: 2px;
+}
+ 
+.winamp-btn:active {
+  border-style: inset;
+  background: #15181e;
+}
+ 
+.winamp-btn-play {
+  color: #00ff66;
+  text-shadow: 0 0 6px #00ff66;
+  flex: 1;
+}
+ 
+.winamp-vol {
+  display: flex;
+  align-items: center;
+  gap: 4px;
+  font-size: 9px;
+  color: #aab;
+  margin-left: auto;
+}
+ 
+.winamp-vol input[type="range"] {
+  width: 50px;
+  accent-color: var(--krypton-green);
+  cursor: pointer;
+}
+ 
+/* Barra de Status e Modo Kryptonita Vermelha */
+.retro-toolbar {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  background: #000;
+  padding: 4px 14px;
+  border-bottom: 1px solid #333;
+  font-size: 11px;
+}
+ 
+.kryptonite-mode-btn {
+  background: linear-gradient(180deg, #aa1122 0%, #660511 100%);
+  color: #ffffff;
+  border: 2px outset #ff4455;
+  font-size: 11px;
+  font-weight: bold;
+  padding: 3px 12px;
+  cursor: pointer;
+  box-shadow: 0 0 10px rgba(255, 34, 51, 0.45);
+  transition: all 0.2s ease;
+}
+ 
+.kryptonite-mode-btn:hover {
+  filter: brightness(1.2);
+  box-shadow: 0 0 15px rgba(255, 34, 51, 0.85);
+}
+ 
+.kryptonite-mode-btn:active {
+  border-style: inset;
+}
+ 
+/* Menu Metálico com Abas */
+.retro-nav {
+  background: linear-gradient(180deg, #323846 0%, #1a1e26 100%);
+  border-top: 1px solid #4a5468;
+}
+ 
+.retro-nav ul {
+  display: flex;
+  flex-wrap: wrap;
+  list-style: none;
+  padding: 5px 8px;
+  gap: 5px;
+}
+ 
+.nav-tab {
+  display: inline-block;
+  background: linear-gradient(180deg, #444c5c 0%, #252a33 60%, #1a1c22 100%);
+  border: 2px outset #66728a;
+  color: #dbe4ee;
+  text-decoration: none;
+  font-weight: bold;
+  padding: 6px 12px;
+  font-size: 11px;
+  text-shadow: 1px 1px 2px #000;
+  transition: all 0.15s;
+}
+ 
+.nav-tab:hover {
+  background: linear-gradient(180deg, #59647a 0%, #303744 60%, #21252d 100%);
+  color: var(--krypton-green);
+  border-color: var(--krypton-green);
+}
+ 
+.nav-tab.active {
+  background: linear-gradient(180deg, #003399 0%, #001f5c 100%);
+  border-style: inset;
+  color: #fff;
+  border-color: #4d88ff;
+  box-shadow: inset 0 2px 6px rgba(0, 0, 0, 0.8);
+}
+ 
+/* ==========================================================================
+   LAYOUT EM GRID RETRÔ (SIDEBAR + MAIN COLUMN)
+   ========================================================================== */
+ 
+.main-content-grid {
+  display: grid;
+  grid-template-columns: 270px 1fr;
+  gap: 12px;
+  margin-top: 12px;
+}
+ 
+@media (max-width: 860px) {
+  .main-content-grid {
+    grid-template-columns: 1fr;
+  }
+}
+ 
+/* Estilo de Janela Retro / Box */
+.window-box {
+  background: var(--panel-bg);
+  border: 2px outset var(--border-bevel-light);
+  box-shadow: 2px 2px 12px rgba(0, 0, 0, 0.75);
+  margin-bottom: 14px;
+}
+ 
+.box-header {
+  background: var(--panel-header);
+  border-bottom: 1px solid #101217;
+  color: #ffffff;
+  font-weight: bold;
+  font-size: 11px;
+  padding: 5px 8px;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  letter-spacing: 0.5px;
+  text-shadow: 1px 1px 2px #000;
+}
+ 
+.win-btn {
+  background: #2a2e38;
+  border: 1px outset #525a6b;
+  color: #ccc;
+  font-size: 9px;
+  padding: 0 4px;
+}
+ 
+.box-body {
+  padding: 14px;
+}
+ 
+.center-text {
+  text-align: center;
+}
+ 
+.mb-4 {
+  margin-bottom: 16px;
+}
+ 
+/* Moldura Fotográfica Lateral de Clark Kent com a Foto Enviada */
+.sidebar-photo-frame {
+  position: relative;
+  width: 145px;
+  height: 185px;
+  margin: 8px auto 12px;
+  border: 3px outset #6b778d;
+  background: #000;
+  box-shadow: 0 0 14px rgba(0, 68, 204, 0.6);
+  overflow: hidden;
+}
+ 
+.sidebar-portrait {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  object-position: center 20%;
+  display: block;
+  transition: transform 0.3s ease;
+}
+ 
+.sidebar-photo-frame:hover .sidebar-portrait {
+  transform: scale(1.06);
+}
+ 
+/* Foto do Clark clicável: toca "Resiliente Nordista" */
+.sidebar-photo-frame {
+  cursor: pointer;
+}
+ 
+.sidebar-photo-frame:focus-visible {
+  outline: 3px solid #ffcc00;
+  outline-offset: 3px;
+}
+ 
+.sidebar-photo-frame.playing {
+  box-shadow: 0 0 18px rgba(255, 204, 0, 0.85);
+}
+ 
+.sidebar-photo-frame.playing .shield-overlay {
+  animation: shieldPulse 1s infinite ease-in-out;
+}
+ 
+@keyframes shieldPulse {
+  0%, 100% { transform: scale(1); box-shadow: 0 0 8px #ff0000; }
+  50% { transform: scale(1.25); box-shadow: 0 0 16px #ffcc00; }
+}
+ 
+.clark-song-hint {
+  font-size: 10px;
+  color: #ffcc00;
+  margin: 0 0 8px;
+  min-height: 14px;
+}
+ 
+@media (prefers-reduced-motion: reduce) {
+  .sidebar-photo-frame.playing .shield-overlay,
+  .crystal-img {
+    animation: none;
+  }
+}
+ 
+.shield-overlay {
+  position: absolute;
+  bottom: 6px;
+  right: 6px;
+  background: rgba(204, 0, 0, 0.85);
+  color: #fff;
+  border: 1px solid #ffcc00;
+  font-family: var(--font-title);
+  font-size: 14px;
+  font-weight: 900;
+  width: 26px;
+  height: 26px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  border-radius: 50%;
+  box-shadow: 0 0 8px #ff0000;
+}
+ 
+.badge-status {
+  display: inline-block;
+  background: #260a0a;
+  border: 1px solid #ff3333;
+  color: #ff5555;
+  font-size: 10px;
+  font-weight: bold;
+  padding: 3px 6px;
+  margin-top: 8px;
+  letter-spacing: 1px;
+}
+ 
+/* Contador de Visitas Retrô */
+.counter-display {
+  display: inline-flex;
+  background: #000;
+  border: 2px inset #555;
+  padding: 4px 6px;
+  margin: 6px 0;
+  box-shadow: inset 0 0 10px rgba(0, 255, 102, 0.4);
+}
+ 
+.counter-display .digit {
+  background: #111;
+  border: 1px solid #333;
+  color: var(--krypton-green);
+  font-family: var(--font-digital);
+  font-size: 26px;
+  padding: 0 4px;
+  margin: 0 1px;
+  line-height: 1;
+  text-shadow: 0 0 6px var(--krypton-glow);
+}
+ 
+.retro-links-list {
+  list-style: none;
+  font-size: 11px;
+}
+ 
+.retro-links-list li {
+  padding: 4px 0;
+  border-bottom: 1px dashed #282d38;
+}
+ 
+.quick-link {
+  color: #66b2ff;
+  text-decoration: none;
+  font-weight: bold;
+}
+ 
+.quick-link:hover {
+  color: var(--krypton-green);
+  text-decoration: underline;
+}
+ 
+/* Selos Retrô (Badges) */
+.web-badges {
+  display: flex;
+  flex-direction: column;
+  gap: 6px;
+}
+ 
+.retro-badge {
+  font-size: 9px;
+  font-weight: 800;
+  padding: 4px 6px;
+  border: 2px outset #fff;
+  letter-spacing: 0.5px;
+  text-transform: uppercase;
+}
+ 
+.badge-blue { background: #003399; color: #fff; border-color: #5588ff; }
+.badge-yellow { background: #886600; color: #ffeb3b; border-color: #ffcc00; }
+.badge-green { background: #005522; color: #00ff66; border-color: #00cc44; }
+.badge-red { background: #660000; color: #ff8888; border-color: #cc3333; }
+ 
+/* ==========================================================================
+   SEÇÃO 1: BOAS-VINDAS E DESTAQUES
+   ========================================================================== */
+ 
+.welcome-callout {
+  background: linear-gradient(180deg, #1d222e 0%, #12151d 100%);
+  border: 2px inset #2d3342;
+  padding: 16px;
+  margin-bottom: 14px;
+}
+ 
+.welcome-callout h3 {
+  color: #ffcc00;
+  font-size: 16px;
+  margin-bottom: 8px;
+  text-shadow: 1px 1px 2px #000;
+}
+ 
+.welcome-callout p {
+  margin-bottom: 10px;
+  color: #c9d2de;
+  line-height: 1.6;
+}
+ 
+.quick-facts-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(180px, 1fr));
+  gap: 10px;
+}
+ 
+.fact-card {
+  background: #101217;
+  border: 1px outset #3b4252;
+  padding: 12px;
+  text-align: center;
+  transition: border-color 0.2s;
+}
+ 
+.fact-card:hover {
+  border-color: var(--krypton-green);
+}
+ 
+.fact-icon {
+  font-size: 26px;
+  display: block;
+  margin-bottom: 4px;
+}
+ 
+.fact-card strong {
+  display: block;
+  color: #fff;
+  font-size: 13px;
+}
+ 
+.fact-card span {
+  font-size: 11px;
+  color: var(--text-muted);
+}
+ 
+.section-desc {
+  font-size: 12px;
+  color: #9fb0c4;
+  margin-bottom: 12px;
+  border-left: 3px solid var(--krypton-green);
+  padding-left: 8px;
+}
+ 
+/* ==========================================================================
+   SEÇÃO 2: GUIA DE TEMPORADAS COM PÔSTERES OFICIAIS
+   ========================================================================== */
+ 
+.seasons-nav {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 4px;
+  margin-bottom: 14px;
+  background: #0d0f14;
+  padding: 6px;
+  border: 1px inset #252a36;
+}
+ 
+.season-btn {
+  background: linear-gradient(180deg, #373e4d 0%, #20242d 100%);
+  border: 2px outset #58637a;
+  color: #cfd8e3;
+  padding: 6px 10px;
+  font-size: 11px;
+  font-weight: bold;
+  cursor: pointer;
+  border-radius: 2px;
+  transition: all 0.15s;
+}
+ 
+.season-btn:hover {
+  background: linear-gradient(180deg, #4d576c 0%, #292f3b 100%);
+  color: var(--krypton-green);
+}
+ 
+.season-btn.active {
+  background: linear-gradient(180deg, #005522 0%, #002b11 100%);
+  border: 2px inset #00aa44;
+  color: #ffffff;
+  box-shadow: 0 0 8px var(--krypton-glow);
+}
+ 
+.season-detail-card {
+  background: #10131a;
+  border: 2px outset #3c4456;
+  padding: 16px;
+  animation: fadeIn 0.3s ease;
+}
+ 
+.season-main-flex {
+  display: flex;
+  gap: 16px;
+  margin-bottom: 16px;
+}
+ 
+@media (max-width: 680px) {
+  .season-main-flex {
+    flex-direction: column;
+    align-items: center;
+  }
+}
+ 
+.season-poster-frame {
+  width: 170px;
+  min-width: 170px;
+  border: 3px outset #66728a;
+  background: #000;
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.8);
+  position: relative;
+}
+ 
+.season-poster-img {
+  width: 100%;
+  height: 250px;
+  object-fit: cover;
+  display: block;
+}
+ 
+.season-info-col {
+  flex: 1;
+}
+ 
+.season-header-row {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  border-bottom: 2px solid #2d3444;
+  padding-bottom: 8px;
+  margin-bottom: 12px;
+  flex-wrap: wrap;
+  gap: 8px;
+}
+ 
+.season-title-large {
+  font-family: var(--font-title);
+  font-size: 22px;
+  color: #ffffff;
+  text-shadow: 0 0 10px var(--smallville-blue);
+}
+ 
+.season-years-tag {
+  background: #000;
+  border: 1px solid #4a5568;
+  color: #ffbb33;
+  font-size: 11px;
+  padding: 3px 8px;
+  font-weight: bold;
+}
+ 
+.season-summary {
+  font-size: 13px;
+  line-height: 1.6;
+  color: #d1d9e2;
+  margin-bottom: 14px;
+}
+ 
+.season-episodes-heading {
+  color: var(--krypton-green);
+  font-size: 13px;
+  font-weight: bold;
+  letter-spacing: 1px;
+  margin-bottom: 10px;
+  border-bottom: 1px dashed #2b3b30;
+  padding-bottom: 4px;
+}
+ 
+.season-moments-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(240px, 1fr));
+  gap: 12px;
+}
+ 
+.moment-card {
+  background: #181d28;
+  border: 1px inset #2d3648;
+  padding: 12px;
+  position: relative;
+  transition: border-color 0.2s;
+}
+ 
+.moment-card:hover {
+  border-color: #4d88ff;
+}
+ 
+.moment-card::before {
+  content: "★";
+  position: absolute;
+  top: 8px;
+  right: 8px;
+  color: #ffcc00;
+  font-size: 12px;
+}
+ 
+.moment-title {
+  color: #fff;
+  font-weight: bold;
+  font-size: 12px;
+  margin-bottom: 4px;
+  padding-right: 14px;
+}
+ 
+.moment-episode {
+  font-size: 10px;
+  color: #7289da;
+  display: block;
+  margin-bottom: 6px;
+  font-weight: bold;
+}
+ 
+.moment-text {
+  font-size: 11px;
+  color: #abb6c5;
+  line-height: 1.45;
+}
+ 
+/* ==========================================================================
+   SEÇÃO 3: DOSSIÊ DE PERSONAGENS COM FOTOS REAIS
+   ========================================================================== */
+ 
+.dossier-tabs {
+  display: flex;
+  gap: 8px;
+  margin-bottom: 16px;
+}
+ 
+.dossier-tab {
+  flex: 1;
+  background: linear-gradient(180deg, #313642 0%, #1a1d24 100%);
+  border: 2px outset #525c70;
+  color: #cdd6e2;
+  font-weight: bold;
+  font-size: 12px;
+  padding: 9px;
+  cursor: pointer;
+  text-align: center;
+  transition: all 0.2s;
+}
+ 
+.dossier-tab:hover {
+  background: #3e4454;
+}
+ 
+.dossier-tab.active[data-filter="hero"] {
+  background: linear-gradient(180deg, #003399 0%, #001f5c 100%);
+  border-style: inset;
+  color: #fff;
+  border-color: #3b7fff;
+  box-shadow: inset 0 0 12px rgba(0, 51, 153, 0.85);
+}
+ 
+.dossier-tab.active[data-filter="villain"] {
+  background: linear-gradient(180deg, #8b0000 0%, #440000 100%);
+  border-style: inset;
+  color: #fff;
+  border-color: #ff4444;
+  box-shadow: inset 0 0 12px rgba(139, 0, 0, 0.85);
+}
+ 
+.characters-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(290px, 1fr));
+  gap: 14px;
+}
+ 
+.char-card {
+  background: #11141c;
+  border: 2px outset #373f52;
+  padding: 12px;
+  display: flex;
+  flex-direction: column;
+  transition: transform 0.2s, border-color 0.2s, box-shadow 0.2s;
+}
+ 
+.char-card:hover {
+  transform: translateY(-3px);
+  border-color: var(--krypton-green);
+  box-shadow: 0 6px 16px rgba(0, 0, 0, 0.7);
+}
+ 
+.char-header {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  border-bottom: 1px solid #232a38;
+  padding-bottom: 10px;
+  margin-bottom: 10px;
+}
+ 
+.char-portrait-frame {
+  width: 104px;
+  height: 132px;
+  min-width: 104px;
+  background: #000;
+  border: 2px inset #4a5568;
+  overflow: hidden;
+  position: relative;
+  box-shadow: 0 0 8px rgba(0, 0, 0, 0.8);
+}
+ 
+.char-photo {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  object-position: center 15%;
+  display: block;
+  filter: contrast(1.05) saturate(1.05);
+}
+ 
+.char-initials {
+  width: 100%;
+  height: 100%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  background: linear-gradient(160deg, #1d2a44, #0a0f1a);
+  color: #66b2ff;
+  font-family: var(--font-title);
+  font-size: 28px;
+  font-weight: 800;
+  letter-spacing: 2px;
+}
+ 
+.char-photo.bizarro-fx {
+  filter: invert(0.85) hue-rotate(180deg) contrast(1.4);
+}
+ 
+.char-meta {
+  flex: 1;
+}
+ 
+.char-meta h4 {
+  font-size: 15px;
+  color: #ffffff;
+}
+ 
+.char-codename {
+  font-size: 11px;
+  color: #ffbb33;
+  font-weight: bold;
+  display: block;
+  margin-top: 2px;
+}
+ 
+.char-actor-name {
+  font-size: 10px;
+  color: #9aa8ba;
+  font-style: italic;
+  display: block;
+  margin-top: 1px;
+}
+ 
+.char-tag {
+  display: inline-block;
+  font-size: 9px;
+  font-weight: bold;
+  padding: 2px 6px;
+  margin-top: 4px;
+  border-radius: 2px;
+  letter-spacing: 0.5px;
+}
+ 
+.tag-hero {
+  background: #002244;
+  border: 1px solid #0066cc;
+  color: #66b2ff;
+}
+ 
+.tag-villain {
+  background: #330000;
+  border: 1px solid #cc0000;
+  color: #ff6666;
+}
+ 
+.char-power-row {
+  background: #090b0e;
+  border: 1px inset #222;
+  padding: 6px 8px;
+  font-size: 10px;
+  color: #a0aec0;
+  margin-bottom: 8px;
+}
+ 
+.char-power-row strong {
+  color: var(--krypton-green);
+}
+ 
+.char-bio {
+  font-size: 11px;
+  color: #b8c4d4;
+  line-height: 1.5;
+  flex-grow: 1;
+}
+ 
+/* ==========================================================================
+   NOVA SEÇÃO: GUIA DAS 7 KRYPTONITAS
+   ========================================================================== */
+ 
+.krypton-stones-nav {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 6px;
+  margin-bottom: 16px;
+  background: #0e1117;
+  padding: 8px;
+  border: 1px inset #272f3d;
+}
+ 
+.stone-nav-btn {
+  background: #1c212b;
+  border: 2px outset #475266;
+  color: #dbe4ee;
+  font-size: 11px;
+  font-weight: bold;
+  padding: 7px 12px;
+  cursor: pointer;
+  border-radius: 3px;
+  display: flex;
+  align-items: center;
+  gap: 6px;
+  transition: all 0.2s;
+}
+ 
+.stone-nav-btn:hover {
+  transform: translateY(-2px);
+  filter: brightness(1.2);
+}
+ 
+.stone-nav-btn.active {
+  border-style: inset;
+  box-shadow: inset 0 0 10px rgba(0, 0, 0, 0.9);
+}
+ 
+.stone-thumb {
+  width: 28px;
+  height: 28px;
+  display: block;
+  flex-shrink: 0;
+}
+ 
+.krypton-stone-display {
+  background: #11141c;
+  border: 2px outset #3d4659;
+  padding: 18px;
+  animation: fadeIn 0.3s ease;
+}
+ 
+.stone-detail-grid {
+  display: grid;
+  grid-template-columns: 180px 1fr;
+  gap: 18px;
+}
+ 
+@media (max-width: 650px) {
+  .stone-detail-grid {
+    grid-template-columns: 1fr;
+    text-align: center;
+  }
+}
+ 
+.stone-crystal-preview {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  background: #080a0f;
+  border: 2px inset #262c38;
+  padding: 16px;
+  border-radius: 4px;
+}
+ 
+.crystal-img {
+  width: 220px;
+  max-width: 100%;
+  height: auto;
+  display: block;
+  margin-bottom: 8px;
+  /* Animação removida daqui */
+}
+ 
+/* O bloco @keyframes crystalFloat foi removido */
+ 
+/* O bloco .stone-hazard-level foi totalmente removido para sumir com a mensagem vermelha */
+ 
+.stone-info-content h3 {
+  font-family: var(--font-title);
+  font-size: 20px;
+  margin-bottom: 6px;
+}
+ 
+.stone-scientific-name {
+  font-size: 11px;
+  color: #ffbb33;
+  margin-bottom: 12px;
+  display: block;
+}
+ 
+.stone-effect-box {
+  background: #181d28;
+  border: 1px inset #2d3648;
+  padding: 10px;
+  font-size: 12px;
+  line-height: 1.5;
+}
+ 
+.stone-effect-box strong {
+  display: block;
+  margin-bottom: 2px;
+  font-size: 11px;
+  text-transform: uppercase;
+}
+ 
+/* ==========================================================================
+   SEÇÃO 4: LINHA DO TEMPO CRONOLÓGICA COM FOTOS REAIS
+   ========================================================================== */
+ 
+.retro-timeline {
+  position: relative;
+  padding: 10px 0 10px 20px;
+  border-left: 3px dashed var(--krypton-green);
+  margin-left: 15px;
+}
+ 
+.timeline-item {
+  position: relative;
+  margin-bottom: 28px;
+  padding-left: 18px;
+}
+ 
+.timeline-node {
+  position: absolute;
+  left: -29px;
+  top: 4px;
+  width: 16px;
+  height: 16px;
+  background: var(--krypton-green);
+  border: 2px solid #000;
+  border-radius: 50%;
+  box-shadow: 0 0 10px var(--krypton-green);
+}
+ 
+.timeline-year-badge {
+  display: inline-block;
+  background: linear-gradient(180deg, #0044cc 0%, #001f5c 100%);
+  border: 1px outset #5588ff;
+  color: #fff;
+  font-family: var(--font-title);
+  font-size: 12px;
+  font-weight: bold;
+  padding: 2px 8px;
+  margin-bottom: 8px;
+}
+ 
+.timeline-title {
+  color: #fff;
+  font-size: 15px;
+  font-weight: bold;
+  margin-bottom: 8px;
+}
+ 
+.timeline-card-inner {
+  background: #11141c;
+  border: 1px inset #2d3545;
+  padding: 14px;
+  display: flex;
+  gap: 16px;
+}
+ 
+@media (max-width: 680px) {
+  .timeline-card-inner {
+    flex-direction: column;
+  }
+}
+ 
+.timeline-photo-frame {
+  width: 200px;
+  min-width: 200px;
+  height: 125px;
+  border: 2px outset #525c70;
+  background: #000;
+  overflow: hidden;
+  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.8);
+}
+ 
+.timeline-photo {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  display: block;
+  transition: transform 0.3s ease;
+}
+ 
+.timeline-photo-frame:hover .timeline-photo {
+  transform: scale(1.08);
+}
+ 
+.timeline-text-col {
+  flex: 1;
+}
+ 
+.timeline-desc {
+  font-size: 12px;
+  color: #c1ccd9;
+  line-height: 1.55;
+}
+ 
+/* ==========================================================================
+   SEÇÃO 5: LIVRO DE VISITAS RETRÔ (GUESTBOOK)
+   ========================================================================== */
+ 
+.guestbook-form {
+  background: #0e1117;
+  border: 2px inset #2d3444;
+  padding: 14px;
+  margin-bottom: 16px;
+}
+ 
+.form-row {
+  margin-bottom: 10px;
+}
+ 
+.form-row label {
+  display: block;
+  font-size: 11px;
+  font-weight: bold;
+  color: #9fb0c4;
+  margin-bottom: 3px;
+}
+ 
+.form-row input,
+.form-row textarea {
+  width: 100%;
+  background: #161a22;
+  border: 2px inset #373f52;
+  color: #fff;
+  font-family: var(--font-system);
+  font-size: 12px;
+  padding: 6px 8px;
+}
+ 
+.form-row input:focus,
+.form-row textarea:focus {
+  outline: none;
+  border-color: var(--krypton-green);
+  box-shadow: 0 0 6px var(--krypton-glow);
+}
+ 
+.form-actions {
+  display: flex;
+  gap: 8px;
+}
+ 
+.retro-submit-btn {
+  background: linear-gradient(180deg, #00883a 0%, #00441c 100%);
+  border: 2px outset #00cc55;
+  color: #fff;
+  font-weight: bold;
+  font-size: 12px;
+  padding: 6px 14px;
+  cursor: pointer;
+}
+ 
+.retro-submit-btn:hover {
+  background: linear-gradient(180deg, #00aa49 0%, #005a25 100%);
+}
+ 
+.retro-reset-btn {
+  background: linear-gradient(180deg, #444c5c 0%, #252a33 100%);
+  border: 2px outset #66728a;
+  color: #ccc;
+  font-size: 12px;
+  padding: 6px 14px;
+  cursor: pointer;
+}
+ 
+.guestbook-entries {
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+}
+ 
+.gb-entry-card {
+  background: #12161f;
+  border: 1px outset #323a4b;
+  padding: 12px;
+}
+ 
+.gb-entry-header {
+  display: flex;
+  justify-content: space-between;
+  border-bottom: 1px dashed #283040;
+  padding-bottom: 4px;
+  margin-bottom: 6px;
+  font-size: 11px;
+}
+ 
+.gb-author {
+  color: #ffbb33;
+  font-weight: bold;
+}
+ 
+.gb-location {
+  color: #7289da;
+}
+ 
+.gb-date {
+  color: #718096;
+}
+ 
+.gb-text {
+  font-size: 12px;
+  color: #d1dbe7;
+  font-style: italic;
+}
+ 
+/* ==========================================================================
+   RODAPÉ RETRÔ
+   ========================================================================== */
+ 
+.retro-footer {
+  border: 2px outset var(--border-bevel-light);
+  background: #090a0d;
+  padding: 16px;
+  text-align: center;
+  margin-top: 14px;
+  box-shadow: 0 4px 10px rgba(0, 0, 0, 0.8);
+}
+ 
+.webring-label {
+  display: block;
+  font-family: var(--font-digital);
+  font-size: 18px;
+  color: #ffcc00;
+  letter-spacing: 2px;
+  margin-bottom: 4px;
+}
+ 
+.webring-nav a {
+  color: #66b2ff;
+  text-decoration: none;
+  font-size: 11px;
+  margin: 0 6px;
+}
+ 
+.webring-nav a:hover {
+  text-decoration: underline;
+  color: #fff;
+}
+ 
+.footer-divider {
+  height: 1px;
+  background: linear-gradient(90deg, transparent, #3a4457, transparent);
+  margin: 12px 0;
+}
+ 
+.footer-disclaimer p {
+  margin-bottom: 4px;
+  color: #8b99aa;
+}
+ 
+.font-small {
+  font-size: 11px;
+}
+ 
+.font-micro {
+  font-size: 9px;
+}
+ 
+.neon-green {
+  color: var(--krypton-green) !important;
+  text-shadow: 0 0 5px var(--krypton-glow);
+}
+ 
+/* Animações */
+@keyframes fadeIn {
+  from { opacity: 0; transform: translateY(4px); }
+  to { opacity: 1; transform: translateY(0); }
+}

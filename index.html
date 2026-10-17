@@ -1,0 +1,396 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Smallville Legends - Portal Oficial dos Anos 2000 (1989-2011)</title>
+  <meta name="description" content="O portal definitivo dos anos 2000 de Smallville: temporadas, personagens, guia completo das kryptonitas e linha do tempo com fotos.">
+  <link rel="stylesheet" href="styles.css">
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=VT323&family=Orbitron:wght@600;800;900&family=Special+Elite&display=swap" rel="stylesheet">
+</head>
+<body>
+ 
+  <!-- Canvas de Partículas de Meteoros Animadas -->
+  <canvas id="meteorCanvas" class="meteor-canvas"></canvas>
+ 
+  <!-- Efeito Scanlines Retro -->
+  <div class="scanlines-overlay"></div>
+ 
+  <!-- Áudio Oficial da Abertura: Remy Zero - Save Me -->
+  <audio id="themeAudio" src="assets/audio/save-me.mp3" preload="auto"></audio>
+ 
+  <!-- Música do Clark: Resiliente Nordista (toca ao clicar na foto / no "S") -->
+  <audio id="clarkAudio" src="assets/audio/resiliente-nordista.mp3" preload="none"></audio>
+ 
+  <!-- Barra de Notícias Animada (Marquee Clássico) -->
+  <div class="marquee-bar">
+    <div class="marquee-content">
+      <span>🚨 [PLANETA DIÁRIO]: O "Borrão" foi avistado no centro de Metrópolis salvando um trem desgovernado!</span>
+      <span>💥 [LUTHORCORP]: Nível 33.1 em quarentena após descoberta de fragmento de Kryptonita Dourada!</span>
+      <span>🪐 [FORTALEZA DA SOLIDÃO]: "Kal-El, o destino da humanidade depende do seu coração." — Jor-El</span>
+      <span>🎵 [TRILHA SONORA]: "Somebody save me... let your warm hands break right through me!"</span>
+    </div>
+  </div>
+ 
+  <div class="page-wrapper">
+ 
+    <!-- CABEÇALHO RETRÔ COM BANNER CINEMATOGRÁFICO ORIGINAL -->
+    <header class="retro-header">
+      <div class="header-banner">
+        <div class="banner-content">
+          <div class="header-titles">
+            <div class="krypton-badge">★ O PORTAL SUPREMO DA SÉRIE DE TV (2001 - 2011) ★</div>
+            <h1 class="main-title">
+              <span class="title-smallville">SMALLVILLE</span>
+              <span class="title-sub">AS AVENTURAS DO SUPERBOY // O ARQUIVO KRYPTONIANO</span>
+            </h1>
+            <p class="tagline">"Sem Voo, Sem Colantes" &bull; O arquivo definitivo do Kansas a Metrópolis</p>
+          </div>
+ 
+          <!-- Mini Winamp Player v2.91 -->
+          <div class="winamp-player" id="winampPlayer">
+            <div class="winamp-titlebar">
+              <span class="winamp-dots">● ● ●</span>
+              <span class="winamp-title-text">WINAMP v2.91 - [Remy Zero - Save Me]</span>
+              <span class="winamp-min">_ □ ✕</span>
+            </div>
+            <div class="winamp-screen">
+              <div class="winamp-track-name">
+                <marquee scrollamount="3" id="winampMarquee">1. Remy Zero - Save Me (Smallville TV Theme) [Original Broadcast Audio]</marquee>
+              </div>
+              <div class="winamp-display-row">
+                <span class="winamp-kbps">192 KBPS</span>
+                <span class="winamp-khz">44.1 KHZ</span>
+                <span class="winamp-time" id="winampTime">00:00</span>
+              </div>
+              <!-- Visualizador Equalizador -->
+              <div class="equalizer-bars" id="eqBars">
+                <span class="bar"></span><span class="bar"></span><span class="bar"></span>
+                <span class="bar"></span><span class="bar"></span><span class="bar"></span>
+                <span class="bar"></span><span class="bar"></span><span class="bar"></span>
+                <span class="bar"></span><span class="bar"></span><span class="bar"></span>
+              </div>
+            </div>
+            <div class="winamp-controls">
+              <button class="winamp-btn" id="btnPrev" title="Voltar 5s">|◀</button>
+              <button class="winamp-btn winamp-btn-play" id="btnPlay" title="Tocar / Pausar Abertura">▶ Tocar Abertura</button>
+              <button class="winamp-btn" id="btnStop" title="Parar">■</button>
+              <button class="winamp-btn" id="btnNext" title="Avançar 5s">▶|</button>
+              <div class="winamp-vol">
+                <span>VOL:</span>
+                <input type="range" id="volSlider" min="0" max="100" value="80">
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+ 
+      <!-- Barra de Ferramentas / Status Retrô -->
+      <div class="retro-toolbar">
+        <div class="toolbar-left">
+          <span class="netscape-icon">🌐</span>
+          <span>Status do Portal: <strong class="neon-green">ONLINE NO PLANETA TERRA</strong></span>
+          <span class="pipe">|</span>
+          <span>Data Estelar: <span id="currentDate">14/10/2026</span></span>
+        </div>
+        <div class="toolbar-right">
+          <!-- Botão Modo Kryptonita Vermelha -->
+          <button class="kryptonite-mode-btn" id="btnRedK" title="Modo Chad Ativado">
+            <span class="stone-icon"></span> <span id="redKText">Ativar Kryptonita Vermelha!</span>
+          </button>
+        </div>
+      </div>
+ 
+      <!-- Menu de Navegação Metálico com Abas Expandidas -->
+      <nav class="retro-nav" id="mainNav">
+        <ul>
+          <li><a href="#inicio" class="nav-tab active">🏠 Início</a></li>
+          <li><a href="#temporadas" class="nav-tab">📺 Temporadas 1-10</a></li>
+          <li><a href="#personagens" class="nav-tab">👥 Dossiê de Personagens</a></li>
+          <li><a href="#kryptonitas" class="nav-tab">💎 Guia de Kryptonitas</a></li>
+          <li><a href="#cronologia" class="nav-tab">⏳ Linha do Tempo</a></li>
+          <li><a href="#guestbook" class="nav-tab">✍️ Livro de Visitas</a></li>
+        </ul>
+      </nav>
+    </header>
+ 
+    <!-- CONTEÚDO PRINCIPAL (GRID ANOS 2000) -->
+    <main class="main-content-grid">
+ 
+      <!-- COLUNA LATERAL ESQUERDA (SIDEBAR RETRO) -->
+      <aside class="sidebar-left">
+        <!-- Caixa: Identidade Secreta com a Foto Enviada pelo Usuário -->
+        <div class="retro-box window-box">
+          <div class="box-header">
+            <span>📁 ARQUIVO X-SMALLVILLE</span>
+            <span class="win-btn">?</span>
+          </div>
+          <div class="box-body center-text">
+            <div class="sidebar-photo-frame" id="clarkSongTrigger" role="button" tabindex="0" aria-pressed="false" aria-label="Tocar ou pausar a música Resiliente Nordista">
+              <img src="assets/images/clark_uploaded.jpg" alt="Clark Kent - Tom Welling" class="sidebar-portrait">
+              <div class="shield-overlay">S</div>
+            </div>
+            <p class="clark-song-hint" id="clarkSongHint" aria-live="polite"></p>
+            <p class="box-highlight"><strong>SUJEITO:</strong> Clark Kent</p>
+            <p class="font-small">Origem: Planeta Krypton (Kal-El)</p>
+            <p class="font-small">Intérprete: Tom Welling</p>
+            <div class="badge-status">CLASSIFICADO: NÍVEL 33.1</div>
+          </div>
+        </div>
+ 
+        <!-- Caixa: Contador de Visitas Retrô -->
+        <div class="retro-box window-box">
+          <div class="box-header">
+            <span>🔢 HIT COUNTER (GEO)</span>
+          </div>
+          <div class="box-body center-text">
+            <p class="font-small">Você é o fã número:</p>
+            <div class="counter-display" id="visitCounter">
+              <span class="digit">0</span>
+              <span class="digit">0</span>
+              <span class="digit">0</span>
+              <span class="digit">0</span>
+              <span class="digit">0</span>
+              <span class="digit">1</span>
+            </div>
+            <p class="font-micro">Hits registrados desde Outubro de 2001</p>
+          </div>
+        </div>
+ 
+        <!-- Atalhos Rápidos da Série -->
+        <div class="retro-box window-box">
+          <div class="box-header">
+            <span>⚡ ACESSO RÁPIDO</span>
+          </div>
+          <div class="box-body">
+            <ul class="retro-links-list">
+              <li><a href="#kryptonitas" class="quick-link">💎 Todas as 7 Kryptonitas</a></li>
+              <li><a href="#personagens" class="quick-link">👥 Dossiê de Personagens</a></li>
+              <li><a href="#temporadas" class="quick-link">📺 Pôsteres 1 a 10</a></li>
+              <li><a href="#cronologia" class="quick-link">⏳ 1989 a 2018 com Fotos</a></li>
+            </ul>
+          </div>
+        </div>
+ 
+        <!-- Caixa: Selos da Web 2.0 -->
+        <div class="retro-box window-box">
+          <div class="box-header">
+            <span>⭐ SELOS DA WEB 2.0</span>
+          </div>
+          <div class="box-body center-text web-badges">
+            <div class="retro-badge badge-blue">BEST VIEWED IN 1024x768</div>
+            <div class="retro-badge badge-yellow">NETSCAPE & IE 6.0 READY</div>
+            <div class="retro-badge badge-green">POWERED BY KRYPTONITE</div>
+            <div class="retro-badge badge-red">LUTHORCORP APPROVED</div>
+          </div>
+        </div>
+      </aside>
+ 
+      <!-- COLUNA CENTRAL (CONTEÚDO DINÂMICO) -->
+      <section class="main-column">
+ 
+        <!-- SEÇÃO: INÍCIO / BOAS-VINDAS -->
+        <article class="retro-box window-box mb-4" id="inicio">
+          <div class="box-header">
+            <span>📜 BEM-VINDO AO PORTAL SUPREMO DE SMALLVILLE!</span>
+            <span class="win-btn">_ □ ✕</span>
+          </div>
+          <div class="box-body">
+            <div class="welcome-intro">
+              <div class="welcome-callout">
+                <h3>A Origem do Maior Herói do Mundo</h3>
+                <p>
+                  Exibida entre 2001 e 2011 ao longo de <strong>10 temporadas históricas (218 episódios)</strong>, <em>Smallville</em> conquistou gerações com o jovem Clark Kent descobrindo suas habilidades alienígenas no interior do Kansas.
+                </p>
+                <p>
+                  Agora o portal está ainda mais completo: confira o <strong>Guia Oficial das 7 Kryptonitas</strong> com imagens de cada cristal, explore o <strong>Dossiê Secreto de Personagens</strong> com fotos da série, navegue pela <strong>Linha do Tempo com fotos de cada era</strong> e ouça a abertura clássica no Winamp!
+                </p>
+              </div>
+            </div>
+ 
+            <!-- Destaques Rápidos -->
+            <div class="quick-facts-grid">
+              <div class="fact-card">
+                <strong>10 Temporadas</strong>
+                <span>Pôsteres e sinopses de 2001 a 2011</span>
+              </div>
+              <div class="fact-card">
+                <strong>7 Kryptonitas</strong>
+                <span>Verde, Vermelha, Azul, Dourada e mais</span>
+              </div>
+              <div class="fact-card">
+                <strong>14 Personagens</strong>
+                <span>Dossiê completo com fotos da série</span>
+              </div>
+              <div class="fact-card">
+                <strong>Linha do Tempo Ilustrada</strong>
+                <span>De 1989 a 2018 com fotos históricas</span>
+              </div>
+            </div>
+          </div>
+        </article>
+ 
+        <!-- SEÇÃO 1: MELHORES MOMENTOS POR TEMPORADA (1 A 10 COM PÔSTERES) -->
+        <article class="retro-box window-box mb-4" id="temporadas">
+          <div class="box-header">
+            <span>📺 ARQUIVO DE TEMPORADAS: GUIA EPISÓDICO COM PÔSTERES OFICIAIS</span>
+            <span class="win-btn">▲</span>
+          </div>
+          <div class="box-body">
+            <p class="section-desc">
+              Clique em qualquer uma das 10 temporadas para visualizar seu pôster oficial de lançamento, sinopse da era e os 3 episódios canônicos mais marcantes.
+            </p>
+ 
+            <div class="seasons-nav" id="seasonsTabs">
+              <button class="season-btn active" data-season="1">Temporada 1</button>
+              <button class="season-btn" data-season="2">Temporada 2</button>
+              <button class="season-btn" data-season="3">Temporada 3</button>
+              <button class="season-btn" data-season="4">Temporada 4</button>
+              <button class="season-btn" data-season="5">Temporada 5</button>
+              <button class="season-btn" data-season="6">Temporada 6</button>
+              <button class="season-btn" data-season="7">Temporada 7</button>
+              <button class="season-btn" data-season="8">Temporada 8</button>
+              <button class="season-btn" data-season="9">Temporada 9</button>
+              <button class="season-btn" data-season="10">Temporada 10</button>
+            </div>
+ 
+            <div class="seasons-display" id="seasonContentArea">
+              <!-- Renderizado via JavaScript -->
+            </div>
+          </div>
+        </article>
+ 
+        <!-- SEÇÃO 2: DOSSIÊ DE PERSONAGENS COM FOTOS REAIS -->
+        <article class="retro-box window-box mb-4" id="personagens">
+          <div class="box-header">
+            <span>👥 DOSSIÊ CONFIDENCIAL: FOTOS E BIOGRAFIAS DOS PERSONAGENS</span>
+            <span class="win-btn">●</span>
+          </div>
+          <div class="box-body">
+            <p class="section-desc">
+              Arquivos secretos da Torre de Vigilância (Watchtower) e servidores de segurança da LuthorCorp.
+            </p>
+ 
+            <div class="dossier-tabs">
+              <button class="dossier-tab active" id="tabHeroes" data-filter="hero">
+                <span class="shield-mini">🛡️</span> HERÓIS & ALIADOS (LIGA DA JUSTIÇA)
+              </button>
+              <button class="dossier-tab" id="tabVillains" data-filter="villain">
+                <span class="skull-mini">☣️</span> VILÕES & AMEAÇAS (NÍVEL 33.1)
+              </button>
+            </div>
+ 
+            <div class="characters-grid" id="charactersGrid">
+              <!-- Renderizado via JavaScript com a foto enviada pelo usuário em Clark Kent -->
+            </div>
+          </div>
+        </article>
+ 
+        <!-- NOVA SEÇÃO: GUIA DEFINITIVO DAS KRYPTONITAS -->
+        <article class="retro-box window-box mb-4" id="kryptonitas">
+          <div class="box-header">
+            <span>O ARQUIVO MINERALÓGICO: AS 7 KRYPTONITAS DE SMALLVILLE</span>
+            <span class="win-btn">.</span>
+          </div>
+          <div class="box-body">
+            <p class="section-desc">
+              Clique em cada fragmento de meteoro alienígena para analisar suas propriedades radioativas, os efeitos sobre a fisiologia de Kal-El e como afetou os humanos e clones ao longo da série.
+            </p>
+ 
+            <!-- Seletor Interativo das Kryptonitas -->
+            <div class="krypton-stones-nav" id="kryptonStonesNav">
+              <!-- Botões gerados via JS -->
+            </div>
+ 
+            <!-- Painel de Exibição da Kryptonita Selecionada -->
+            <div class="krypton-stone-display" id="kryptonStoneDisplay">
+              <!-- Detalhes gerados via JS -->
+            </div>
+          </div>
+        </article>
+ 
+        <!-- SEÇÃO 3: LINHA DO TEMPO CRONOLÓGICA COM FOTOS REAIS (1989 - 2018) -->
+        <article class="retro-box window-box mb-4" id="cronologia">
+          <div class="box-header">
+            <span>⏳ CRONOLOGIA COMPLETA COM IMAGENS HISTÓRICAS (1989 - 2018)</span>
+            <span class="win-btn">⏳</span>
+          </div>
+          <div class="box-body">
+            <p class="section-desc">
+              Reviva a trajetória de Smallville desde o impacto da nave em 1989 até o destino final em 2018, agora ilustrada com imagens canônicas de cada momento decisivo.
+            </p>
+ 
+            <!-- Linha do Tempo Vertical Retrô Ilustrada -->
+            <div class="retro-timeline" id="timelineContainer">
+              <!-- Renderizado via JavaScript com fotos -->
+            </div>
+          </div>
+        </article>
+ 
+        <!-- SEÇÃO 4: LIVRO DE VISITAS RETRÔ (GUESTBOOK) -->
+        <article class="retro-box window-box mb-4" id="guestbook">
+          <div class="box-header">
+            <span>✍️ LIVRO DE VISITAS (SIGN THE GUESTBOOK)</span>
+            <span class="win-btn">✎</span>
+          </div>
+          <div class="box-body">
+            <p class="font-small">Deixe sua mensagem, teoria ou momento favorito de Smallville arquivado para outros fãs!</p>
+ 
+            <form class="guestbook-form" id="guestbookForm">
+              <div class="form-row">
+                <label for="gbAuthor">Seu Apelido / Nickname:</label>
+                <input type="text" id="gbAuthor" placeholder="Ex: ClarkFan_2004" required>
+              </div>
+              <div class="form-row">
+                <label for="gbLocation">Cidade / Localização:</label>
+                <input type="text" id="gbLocation" placeholder="Ex: Smallville, Kansas" required>
+              </div>
+              <div class="form-row">
+                <label for="gbMessage">Sua Mensagem / Teoria:</label>
+                <textarea id="gbMessage" rows="3" placeholder="Qual sua temporada ou cena favorita da série?" required></textarea>
+              </div>
+              <div class="form-actions">
+                <button type="submit" class="retro-submit-btn">💾 Enviar Mensagem</button>
+                <button type="button" class="retro-reset-btn" id="btnResetGb">Limpar</button>
+              </div>
+            </form>
+ 
+            <div class="guestbook-entries" id="guestbookEntries">
+              <!-- Mensagens salvas aparecerão aqui -->
+            </div>
+          </div>
+        </article>
+ 
+      </section>
+    </main>
+ 
+    <!-- RODAPÉ RETRÔ ANOS 2000 -->
+    <footer class="retro-footer">
+      <div class="footer-weblinks">
+        <span class="webring-label">★ SMALLVILLE WEBRING #402 ★</span>
+        <div class="webring-nav">
+          <a href="#inicio">[« Site Anterior]</a>
+          <a href="#inicio">[Listar Membros]</a>
+          <a href="#inicio">[Próximo Site »]</a>
+        </div>
+      </div>
+ 
+      <div class="footer-divider"></div>
+ 
+      <div class="footer-disclaimer">
+        <p><strong>LuthorCorp International © 2001-2004 // Daily Planet Syndicate</strong></p>
+        <p class="font-micro">
+          Este é um site sem fins lucrativos criado por fãs dedicado à cultuada série de televisão <em>Smallville</em> (The WB / The CW / Warner Bros. Television).
+          Superman criado por Jerry Siegel e Joe Shuster para a DC Comics.
+        </p>
+        <p class="neon-green font-small">★ "Aquele que salva uma vida salva o mundo inteiro." ★</p>
+      </div>
+    </footer>
+ 
+  </div>
+ 
+  <script src="app.js"></script>
+</body>
+</html>
