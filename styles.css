@@ -139,14 +139,24 @@ body {
 }
  
 .header-banner {
-  background-image: 
-    linear-gradient(90deg, rgba(8,12,20,0.94) 0%, rgba(8,14,25,0.75) 50%, rgba(5,7,10,0.94) 100%),
+  /* Ajuste do enquadramento: mude só esta linha para subir/descer a imagem
+     (ex.: "center top" mostra mais o alto, "center bottom" mais a parte de baixo). */
+  --banner-pos: center 35%;
+
+  background-image:
+    linear-gradient(90deg, rgba(5, 8, 14, 0.78) 0%, rgba(5, 8, 14, 0.30) 45%, rgba(5, 8, 14, 0.55) 100%),
+    url("assets/images/banner7.jpg"),
+    url("assets/images/banner7.jpg"),
+    url("assets/images/banner7.jpg"),
+    url("assets/images/banner7.jpg"),
+    url("assets/images/banner7.jpg"),
     url("assets/images/small.jpg");
   background-size: cover;
-  background-position: center;
+  background-position: center, var(--banner-pos);   /* o degradê fica fixo; a imagem usa o enquadramento acima */
   background-repeat: no-repeat;
   background-color: #080c14;
-  min-height: 300px;
+  /* a altura acompanha a largura da tela: o corte da imagem fica sempre parecido, sem "zoom" exagerado */
+  min-height: clamp(260px, 25vw, 380px);
   position: relative;
 }
 
@@ -1442,3 +1452,166 @@ body {
   from { opacity: 0; transform: translateY(4px); }
   to { opacity: 1; transform: translateY(0); }
 }
+/* ==========================================================================
+   PC: PERSONAGENS, KRYPTONITAS, CRONOLOGIA, LIVRO DE VISITAS E RODAPÉ
+   OCUPAM QUASE A TELA TODA (o resto do site continua igual)
+   ========================================================================== */
+
+.wide-split > .window-box {
+  margin-bottom: 0;
+}
+
+.wide-split {
+  margin-bottom: 16px;
+}
+
+@media (min-width: 1100px) {
+  .wide-zone,
+  .retro-footer {
+    width: min(96vw, 1840px);
+    margin-left: calc(50% - min(48vw, 920px));
+  }
+
+  /* Personagens: mais colunas */
+  .characters-grid {
+    grid-template-columns: repeat(auto-fill, minmax(330px, 1fr));
+  }
+
+  /* Kryptonitas: cristal à esquerda, 3 efeitos lado a lado */
+  .stone-detail-grid {
+    grid-template-columns: 260px 1fr;
+    gap: 24px;
+    align-items: center;
+  }
+
+  .stone-effects-list {
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    gap: 12px;
+  }
+
+  .stone-effect-box {
+    padding: 14px;
+    font-size: 13px;
+  }
+
+  /* Cronologia + Livro de visitas lado a lado */
+  .wide-split {
+    display: grid;
+    grid-template-columns: minmax(0, 1.5fr) minmax(380px, 1fr);
+    gap: 14px;
+    align-items: start;
+  }
+
+  .timeline-photo-frame {
+    width: 280px;
+    min-width: 280px;
+    height: 170px;
+  }
+
+  .timeline-title {
+    font-size: 16px;
+  }
+
+  .timeline-desc {
+    font-size: 13px;
+  }
+
+  #guestbook {
+    position: sticky;
+    top: 12px;
+  }
+
+  .guestbook-form {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 0 12px;
+  }
+
+  .guestbook-form .form-row:nth-child(3),
+  .guestbook-form .form-actions {
+    grid-column: 1 / -1;
+  }
+
+  .guestbook-entries {
+    max-height: 46vh;
+    overflow-y: auto;
+    padding-right: 4px;
+  }
+
+  /* Rodapé em uma linha */
+  .retro-footer {
+    display: grid;
+    grid-template-columns: auto 1px 1fr;
+    align-items: center;
+    gap: 32px;
+    padding: 18px 28px;
+  }
+
+  .retro-footer .footer-divider {
+    width: 1px;
+    height: 100%;
+    min-height: 60px;
+    margin: 0;
+    background: linear-gradient(180deg, transparent, #3a4457, transparent);
+  }
+
+  .footer-disclaimer {
+    text-align: left;
+  }
+}
+
+/* ==========================================================================
+   GALERIA DE GIFS (seção do index.html e página gifs.html)
+   ========================================================================== */
+.gif-grid { display: grid; grid-template-columns: repeat(2, 1fr); gap: 10px; align-items: stretch; }
+@media (min-width: 700px)  { .gif-grid { grid-template-columns: repeat(auto-fill, minmax(200px, 1fr)); gap: 14px; } }
+@media (min-width: 1100px) { .gif-grid { grid-template-columns: repeat(auto-fill, minmax(220px, 1fr)); } }
+.gif-card { background: #11141c; border: 2px outset #373f52; padding: 8px; display: flex; flex-direction: column; gap: 8px; transition: transform .15s, box-shadow .15s; }
+.gif-card:hover { transform: translateY(-3px); box-shadow: 0 0 14px rgba(0,255,102,.35); }
+.gif-card:hover { border-color: var(--krypton-green); }
+.gif-frame { aspect-ratio: 1 / 1; background: #000; border: 2px inset #4a5568; display: grid; place-items: center; overflow: hidden; cursor: zoom-in; }
+.gif-frame img { width: 100%; height: 100%; object-fit: cover; object-position: center 20%; display: block; transition: transform .25s; }
+.gif-frame:hover img { transform: scale(1.06); }
+.gif-frame.missing::after { content: "GIF ainda não enviado"; color: #718096; font-size: 11px; text-align: center; padding: 10px; }
+.gif-name { color: #fff; font-weight: bold; font-size: 12px; display: block; }
+.gif-char { color: #ffbb33; font-size: 10px; font-weight: bold; display: block; }
+.gif-card .retro-submit-btn { width: 100%; padding: 10px 6px; }
+.gif-card .retro-submit-btn.done { color: var(--krypton-green); }
+.gif-toast { position: fixed; left: 50%; bottom: 18px; transform: translateX(-50%); z-index: 50; background: #000; color: var(--krypton-green); border: 2px outset var(--krypton-green); padding: 8px 16px; font-size: 12px; font-weight: bold; opacity: 0; pointer-events: none; transition: opacity .2s; max-width: 92vw; text-align: center; }
+.gif-toast.show { opacity: 1; }
+
+/* Ampliar GIF (clique) */
+.gif-lightbox { position: fixed; inset: 0; z-index: 60; background: rgba(0,0,0,.88); display: none; place-items: center; padding: 24px; cursor: zoom-out; }
+.gif-lightbox.open { display: grid; }
+.gif-lightbox img { max-width: min(92vw, 900px); max-height: 88vh; border: 3px outset var(--krypton-green); box-shadow: 0 0 30px rgba(0,255,102,.35); background: #000; }
+
+
+.step-list { padding-left: 18px; font-size: 11px; line-height: 1.7; }
+.gif-more-link { margin-top: 12px; text-align: right; font-size: 12px; }
+@media (min-width: 1100px) {
+  .gif-grid { grid-template-columns: repeat(auto-fill, minmax(230px, 1fr)); gap: 16px; }
+}
+
+/* ==========================================================================
+   KRYPTONITA VERMELHA E VERDE: botões + animações no site todo
+   (animações só com opacity/transform para ficarem fluidas)
+   ========================================================================== */
+.retro-toolbar { flex-wrap: wrap; gap: 6px; }
+.toolbar-right { display: flex; gap: 8px; flex-wrap: wrap; justify-content: flex-end; }
+.kryptonite-mode-btn.green {
+  background: linear-gradient(180deg, #0c9a3f 0%, #045420 100%);
+  border-color: #3dff8a;
+  box-shadow: 0 0 10px rgba(0, 255, 102, 0.45);
+}
+.kryptonite-mode-btn.green:hover { box-shadow: 0 0 15px rgba(0, 255, 102, 0.85); }
+.kryptonite-mode-btn.is-on { filter: brightness(1.25); outline: 1px solid #fff; outline-offset: 1px; }
+
+/* As cores do tema trocam com transição suave (verde <-> vermelho) */
+@property --krypton-green { syntax: "<color>"; inherits: true; initial-value: #00ff66; }
+@property --krypton-glow { syntax: "<color>"; inherits: true; initial-value: rgba(0, 255, 102, 0.45); }
+@property --border-bevel-light { syntax: "<color>"; inherits: true; initial-value: #525a6b; }
+body { transition: --krypton-green .9s ease, --krypton-glow .9s ease, --border-bevel-light .9s ease; }
+
+/* Verde: o tema já é verde, então o modo só intensifica o brilho */
+body.green-kryptonite-mode { --krypton-glow: rgba(0, 255, 102, 0.85) !important; }

@@ -1,0 +1,468 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Galeria de GIFs - Smallville Legends</title>
+  <meta name="description" content="GIFs dos personagens de Smallville para salvar no celular e mandar para os amigos.">
+  <!-- Segurança: se o styles.css não carregar, a página continua legível (o styles.css sobrescreve isto) -->
+  <style>
+    body { background: #0b0c10; color: #d6dde8; font-family: Tahoma, Verdana, sans-serif; }
+    #meteorCanvas { position: fixed; inset: 0; z-index: 0; pointer-events: none; }
+    a { color: #66b2ff; }
+  </style>
+  <link rel="stylesheet" href="styles.css">
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=VT323&family=Orbitron:wght@600;800;900&family=Special+Elite&display=swap" rel="stylesheet">
+  <style>
+    /* O visual da galeria (cards, lightbox, aviso) vem do styles.css; aqui só o ajuste de layout desta página */
+
+    /* PC: página mais larga, barra lateral fixa e galeria com GIFs maiores */
+    @media (min-width: 1100px) {
+      .page-wrapper { max-width: min(96vw, 1760px); }
+      .main-content-grid { grid-template-columns: 300px 1fr; gap: 18px; }
+      .sidebar-left { position: sticky; top: 12px; align-self: start; max-height: calc(100vh - 24px); overflow-y: auto; scrollbar-width: thin; }
+      .gif-grid { grid-template-columns: repeat(auto-fill, minmax(250px, 1fr)); gap: 18px; }
+      .gif-card { padding: 10px; }
+      .gif-card .retro-submit-btn { font-size: 13px; }
+      .retro-header .header-banner { padding-left: 24px; padding-right: 24px; }
+    }
+    @media (min-width: 1600px) {
+      .gif-grid { grid-template-columns: repeat(auto-fill, minmax(280px, 1fr)); }
+    }
+
+    /* Celular: a galeria vem primeiro, a barra lateral depois */
+    @media (max-width: 860px) { .main-column { order: -1; } }
+
+    /* Nesta página o rodapé segue a largura do portal (sem a faixa larga da página principal) */
+    .retro-footer { width: auto; margin-left: 0; }
+  </style>
+</head>
+<body id="topo">
+
+  <canvas id="meteorCanvas" class="meteor-canvas"></canvas>
+  <div class="scanlines-overlay"></div>
+
+  <!-- Áudio Oficial da Abertura: Remy Zero - Save Me -->
+  <audio id="themeAudio" preload="auto"></audio>
+  <!-- Música do Clark: Resiliente Nordista (toca ao clicar na foto / no "S") -->
+  <audio id="clarkAudio" preload="none"></audio>
+
+  <div class="marquee-bar">
+    <div class="marquee-content">
+      <span>🚨 [PLANETA DIÁRIO]: Nova galeria de GIFs aberta ao público! Salve direto no seu celular!</span>
+      <span>💥 [LUTHORCORP]: Cuidado com o Lex, ele também virou GIF!</span>
+      <span>🪐 [FORTALEZA DA SOLIDÃO]: “Kal-El, mande um GIF para os seus amigos.” — Jor-El</span>
+    </div>
+  </div>
+
+  <div class="page-wrapper">
+
+    <header class="retro-header">
+      <div class="header-banner">
+        <div class="banner-content">
+          <div class="header-titles">
+            <div class="krypton-badge">★ GALERIA OFICIAL DE GIFS ★</div>
+            <h1 class="main-title">
+              <span class="title-smallville">SMALLVILLE</span>
+              <span class="title-sub">GIFS DOS PERSONAGENS // SALVE NO CELULAR</span>
+            </h1>
+            <p class="tagline">“Sem Voo, Sem Colantes” &bull; Toque, salve e mande para os amigos</p>
+          </div>
+
+          <!-- Mini Winamp Player v2.91 -->
+          <div class="winamp-player" id="winampPlayer">
+            <div class="winamp-titlebar">
+              <span class="winamp-dots">● ● ●</span>
+              <span class="winamp-title-text">WINAMP v2.91 - [Remy Zero - Save Me]</span>
+              <span class="winamp-min">_ □ ✕</span>
+            </div>
+            <div class="winamp-screen">
+              <div class="winamp-track-name">
+                <marquee scrollamount="3" id="winampMarquee">1. Remy Zero - Save Me (Smallville TV Theme) [Original Broadcast Audio]</marquee>
+              </div>
+              <div class="winamp-display-row">
+                <span class="winamp-kbps">192 KBPS</span>
+                <span class="winamp-khz">44.1 KHZ</span>
+                <span class="winamp-time" id="winampTime">00:00</span>
+              </div>
+              <!-- Visualizador Equalizador -->
+              <div class="equalizer-bars" id="eqBars">
+                <span class="bar"></span><span class="bar"></span><span class="bar"></span>
+                <span class="bar"></span><span class="bar"></span><span class="bar"></span>
+                <span class="bar"></span><span class="bar"></span><span class="bar"></span>
+                <span class="bar"></span><span class="bar"></span><span class="bar"></span>
+              </div>
+            </div>
+            <div class="winamp-controls">
+              <button class="winamp-btn" id="btnPrev" title="Voltar 5s">|◀</button>
+              <button class="winamp-btn winamp-btn-play" id="btnPlay" title="Tocar / Pausar Abertura">▶ Tocar Abertura</button>
+              <button class="winamp-btn" id="btnStop" title="Parar">■</button>
+              <button class="winamp-btn" id="btnNext" title="Avançar 5s">▶|</button>
+              <div class="winamp-vol">
+                <span>VOL:</span>
+                <input type="range" id="volSlider" min="0" max="100" value="80">
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <div class="retro-toolbar">
+        <div class="toolbar-left">
+          <span class="netscape-icon">🌐</span>
+          <span>Status do Portal: <strong class="neon-green">ONLINE NO PLANETA TERRA</strong></span>
+          <span class="pipe">|</span>
+          <span>Data Estelar: <span id="currentDate">--/--/----</span></span>
+        </div>
+        <div class="toolbar-right">
+          <button class="kryptonite-mode-btn green" id="btnGreenK" title="Kryptonita Verde">
+            <span class="stone-icon"></span> <span id="greenKText">Ativar Kryptonita Verde!</span>
+          </button>
+          <button class="kryptonite-mode-btn" id="btnRedK" title="Kryptonita Vermelha">
+            <span class="stone-icon"></span> <span id="redKText">Ativar Kryptonita Vermelha!</span>
+          </button>
+        </div>
+      </div>
+
+      <nav class="retro-nav" id="mainNav">
+        <ul>
+          <li><a href="index.html#inicio" class="nav-tab">🏠 Início</a></li>
+          <li><a href="index.html#temporadas" class="nav-tab">📺 Temporadas 1-10</a></li>
+          <li><a href="index.html#personagens" class="nav-tab">👥 Dossiê de Personagens</a></li>
+          <li><a href="index.html#kryptonitas" class="nav-tab">💎 Guia de Kryptonitas</a></li>
+          <li><a href="index.html#cronologia" class="nav-tab">⏳ Linha do Tempo</a></li>
+          <li><a href="#galeria" class="nav-tab active">🎞️ GIFs</a></li>
+          <li><a href="index.html#guestbook" class="nav-tab">✍️ Livro de Visitas</a></li>
+        </ul>
+      </nav>
+    </header>
+
+    <main class="main-content-grid">
+
+      <aside class="sidebar-left">
+        <!-- Caixa: Identidade Secreta com a Foto Enviada pelo Usuário -->
+        <div class="retro-box window-box">
+          <div class="box-header">
+            <span>📁 ARQUIVO X-SMALLVILLE</span>
+            <span class="win-btn">?</span>
+          </div>
+          <div class="box-body center-text">
+            <div class="sidebar-photo-frame" id="clarkSongTrigger" role="button" tabindex="0" aria-pressed="false" aria-label="Tocar ou pausar a música Resiliente Nordista">
+              <img id="clarkImg" src="" alt="Clark Kent - Tom Welling" class="sidebar-portrait">
+              <div class="shield-overlay">S</div>
+            </div>
+            <p class="clark-song-hint" id="clarkSongHint" aria-live="polite"></p>
+            <p class="box-highlight"><strong>SUJEITO:</strong> Clark Kent</p>
+            <p class="font-small">Origem: Planeta Krypton (Kal-El)</p>
+            <p class="font-small">Intérprete: Tom Welling</p>
+            <div class="badge-status">CLASSIFICADO: NÍVEL 33.1</div>
+          </div>
+        </div>
+
+        <div class="retro-box window-box">
+          <div class="box-header"><span>🔢 HIT COUNTER (GEO)</span></div>
+          <div class="box-body center-text">
+            <p class="font-small">Você é o fã número:</p>
+            <div class="counter-display" id="visitCounter"></div>
+            <p class="font-micro">Hits registrados desde Outubro de 2001</p>
+          </div>
+        </div>
+
+        <div class="retro-box window-box">
+          <div class="box-header"><span>📲 COMO SALVAR</span></div>
+          <div class="box-body">
+            <ol class="step-list">
+              <li>Escolha o GIF.</li>
+              <li>Toque em <strong>Salvar</strong>.</li>
+              <li>Ele é baixado automaticamente no aparelho.</li>
+              <li>Procure em <strong>Downloads</strong> (iPhone: app Arquivos).</li>
+            </ol>
+          </div>
+        </div>
+
+        <div class="retro-box window-box">
+          <div class="box-header"><span>⚡ ACESSO RÁPIDO</span></div>
+          <div class="box-body">
+            <ul class="retro-links-list">
+              <li><a href="index.html#personagens" class="quick-link">👥 Dossiê de Personagens</a></li>
+              <li><a href="index.html#kryptonitas" class="quick-link">💎 Todas as 7 Kryptonitas</a></li>
+              <li><a href="index.html#cronologia" class="quick-link">⏳ 1989 a 2018 com Fotos</a></li>
+              <li><a href="index.html" class="quick-link">🏠 Voltar ao portal</a></li>
+            </ul>
+          </div>
+        </div>
+
+        <div class="retro-box window-box">
+          <div class="box-header"><span>⭐ SELOS DA WEB 2.0</span></div>
+          <div class="box-body center-text web-badges">
+            <div class="retro-badge badge-blue">BEST VIEWED IN 1024x768</div>
+            <div class="retro-badge badge-green">POWERED BY KRYPTONITE</div>
+            <div class="retro-badge badge-red">LUTHORCORP APPROVED</div>
+          </div>
+        </div>
+      </aside>
+
+      <section class="main-column">
+        <article class="retro-box window-box mb-4" id="galeria">
+          <div class="box-header">
+            <span>🎞️ GALERIA DE GIFS: SALVE NO SEU CELULAR</span>
+            <span class="win-btn">_ □ ✕</span>
+          </div>
+          <div class="box-body">
+            <p class="section-desc">
+              Toque em <strong>Salvar</strong> e o GIF é baixado na hora para você mandar para os amigos.
+            </p>
+            <div class="seasons-nav" id="gifFilters"></div>
+            <div class="gif-grid" id="gifGrid"></div>
+          </div>
+        </article>
+
+        <article class="retro-box window-box mb-4" id="mais-gifs">
+          <div class="box-header">
+            <span>🔎 MAIS GIFS DE SMALLVILLE (GIPHY E TENOR)</span>
+            <span class="win-btn">↗</span>
+          </div>
+          <div class="box-body">
+            <p class="section-desc">Procure GIFs da série nos sites abaixo. Segure o dedo no GIF para salvar no celular.</p>
+            <ul class="retro-links-list">
+              <li><strong>Smallville:</strong> <a class="quick-link" href="https://giphy.com/search/smallville" target="_blank" rel="noopener">Giphy</a> &bull; <a class="quick-link" href="https://tenor.com/search/smallville-gifs" target="_blank" rel="noopener">Tenor</a></li>
+              <li><strong>Clark Kent:</strong> <a class="quick-link" href="https://giphy.com/search/smallville-clark-kent" target="_blank" rel="noopener">Giphy</a> &bull; <a class="quick-link" href="https://tenor.com/search/clark-kent-gifs" target="_blank" rel="noopener">Tenor</a></li>
+              <li><strong>Lex Luthor:</strong> <a class="quick-link" href="https://giphy.com/search/smallville-lex-luthor" target="_blank" rel="noopener">Giphy</a> &bull; <a class="quick-link" href="https://tenor.com/search/lex-luthor-gifs" target="_blank" rel="noopener">Tenor</a></li>
+              <li><strong>Lois Lane:</strong> <a class="quick-link" href="https://giphy.com/search/smallville-lois-lane" target="_blank" rel="noopener">Giphy</a> &bull; <a class="quick-link" href="https://tenor.com/search/lois-lane-gifs" target="_blank" rel="noopener">Tenor</a></li>
+              <li><strong>Chloe Sullivan:</strong> <a class="quick-link" href="https://giphy.com/search/smallville-chloe-sullivan" target="_blank" rel="noopener">Giphy</a> &bull; <a class="quick-link" href="https://tenor.com/search/chloe-sullivan-gifs" target="_blank" rel="noopener">Tenor</a></li>
+              <li><strong>Lana Lang:</strong> <a class="quick-link" href="https://giphy.com/search/smallville-lana-lang" target="_blank" rel="noopener">Giphy</a> &bull; <a class="quick-link" href="https://tenor.com/search/lana-lang-gifs" target="_blank" rel="noopener">Tenor</a></li>
+            </ul>
+          </div>
+        </article>
+      </section>
+    </main>
+
+    <footer class="retro-footer">
+      <div class="footer-weblinks">
+        <span class="webring-label">★ SMALLVILLE WEBRING #402 ★</span>
+        <div class="webring-nav">
+          <a href="index.html">[« Voltar ao Portal]</a>
+          <a href="#topo">[Topo da Página]</a>
+        </div>
+      </div>
+      <div class="footer-divider"></div>
+      <div class="footer-disclaimer">
+        <p><strong>LuthorCorp International © 2001-2004 // Daily Planet Syndicate</strong></p>
+        <p class="font-micro">
+          Este é um site sem fins lucrativos criado por fãs dedicado à cultuada série de televisão <em>Smallville</em> (The WB / The CW / Warner Bros. Television).
+          Superman criado por Jerry Siegel e Joe Shuster para a DC Comics.
+        </p>
+        <p class="neon-green font-small">★ “Aquele que salva uma vida salva o mundo inteiro.” ★</p>
+      </div>
+    </footer>
+  </div>
+
+  <div class="gif-lightbox" id="gifLightbox" role="dialog" aria-label="GIF ampliado"><img alt="GIF ampliado"></div>
+
+  <div class="gif-toast" id="gifToast" role="status" aria-live="polite"></div>
+
+  <script>
+    /* Caminho base: dentro de /gifs/ os arquivos do portal ficam uma pasta acima */
+    const BASE = "";
+    document.getElementById("themeAudio").src = BASE + "assets/audio/save-me.mp3";
+    document.getElementById("clarkAudio").src = BASE + "assets/audio/resiliente-nordista.mp3";
+    document.getElementById("clarkImg").src = BASE + "assets/images/clark_uploaded.jpg";
+
+    /* ===== Músicas (iguais às do portal) ===== */
+class WinampRealPlayer {
+      constructor() {
+        this.audio = document.getElementById("themeAudio");
+        this.btnPlay = document.getElementById("btnPlay");
+        this.btnStop = document.getElementById("btnStop");
+        this.btnPrev = document.getElementById("btnPrev");
+        this.btnNext = document.getElementById("btnNext");
+        this.timeDisplay = document.getElementById("winampTime");
+        this.eqBars = document.getElementById("eqBars");
+        this.volSlider = document.getElementById("volSlider");
+     
+        this.isPlaying = false;
+        this.bindEvents();
+        // Se a música do Clark começar, o tema da abertura pausa
+        document.addEventListener("clark:play", () => { if (this.isPlaying) this.pause(); });
+      }
+     
+      bindEvents() {
+        if (this.audio) {
+          this.audio.volume = this.volSlider.value / 100;
+     
+          this.audio.addEventListener("timeupdate", () => {
+            const cur = Math.floor(this.audio.currentTime);
+            const mins = String(Math.floor(cur / 60)).padStart(2, "0");
+            const secs = String(cur % 60).padStart(2, "0");
+            this.timeDisplay.textContent = `${mins}:${secs}`;
+          });
+     
+          this.audio.addEventListener("ended", () => {
+            this.stop();
+          });
+        }
+     
+        this.btnPlay.addEventListener("click", () => this.togglePlay());
+        this.btnStop.addEventListener("click", () => this.stop());
+        this.btnPrev.addEventListener("click", () => this.rewind());
+        this.btnNext.addEventListener("click", () => this.forward());
+     
+        this.volSlider.addEventListener("input", (e) => {
+          if (this.audio) {
+            this.audio.volume = e.target.value / 100;
+          }
+        });
+      }
+     
+      togglePlay() {
+        if (!this.audio) return;
+     
+        if (this.isPlaying) {
+          this.pause();
+        } else {
+          this.play();
+        }
+      }
+     
+      play() {
+        if (!this.audio) return;
+        this.audio.play().then(() => {
+          this.isPlaying = true;
+          document.dispatchEvent(new CustomEvent("winamp:play"));
+          this.btnPlay.textContent = "❚❚ Pausar";
+          this.eqBars.classList.add("playing");
+        }).catch(err => {
+          console.warn("Autoplay bloqueado pelo navegador, aguardando clique do usuário:", err);
+        });
+      }
+     
+      pause() {
+        if (!this.audio) return;
+        this.audio.pause();
+        this.isPlaying = false;
+        this.btnPlay.textContent = "▶ Tocar Abertura";
+        this.eqBars.classList.remove("playing");
+      }
+     
+      stop() {
+        if (!this.audio) return;
+        this.audio.pause();
+        this.audio.currentTime = 0;
+        this.isPlaying = false;
+        this.btnPlay.textContent = "▶ Tocar Abertura";
+        this.eqBars.classList.remove("playing");
+        this.timeDisplay.textContent = "00:00";
+      }
+     
+      rewind() {
+        if (!this.audio) return;
+        this.audio.currentTime = Math.max(0, this.audio.currentTime - 5);
+      }
+     
+      forward() {
+        if (!this.audio) return;
+        this.audio.currentTime = Math.min(this.audio.duration || 999, this.audio.currentTime + 5);
+      }
+    }
+     
+    // =============================================================================
+    // 7b. MÚSICA DO CLARK: clique na foto (no "S" do canto) toca "Resiliente Nordista"
+    // =============================================================================
+    function initClarkSong() {
+      const frame = document.getElementById("clarkSongTrigger");
+      const audio = document.getElementById("clarkAudio");
+      const hint = document.getElementById("clarkSongHint");
+      if (!frame || !audio || !hint) return;
+     
+      const IDLE = "";
+      const PLAYING = "♪ Tocando: Resiliente Nordista";
+      const MISSING = "Arquivo não encontrado: coloque resiliente-nordista.mp3 em assets/audio/";
+     
+      let failed = false;
+     
+      function setPlaying(on) {
+        if (on) failed = false;
+        frame.classList.toggle("playing", on);
+        frame.setAttribute("aria-pressed", String(on));
+        hint.textContent = on ? PLAYING : (failed ? MISSING : IDLE);
+      }
+     
+      function fail() {
+        failed = true;
+        setPlaying(false);
+      }
+     
+      function toggle() {
+        if (!audio.paused) {
+          audio.pause();
+          return;
+        }
+        document.dispatchEvent(new CustomEvent("clark:play"));
+        audio.play().catch(fail);
+      }
+     
+      audio.addEventListener("play", () => setPlaying(true));
+      audio.addEventListener("pause", () => setPlaying(false));
+      audio.addEventListener("ended", () => setPlaying(false));
+      audio.addEventListener("error", fail);
+      document.addEventListener("winamp:play", () => { if (!audio.paused) audio.pause(); });
+     
+      frame.addEventListener("click", toggle);
+      frame.addEventListener("keydown", (e) => {
+        if (e.key === "Enter" || e.key === " ") { e.preventDefault(); toggle(); }
+      });
+      setPlaying(false);
+    }
+
+    new WinampRealPlayer();
+    initClarkSong();
+
+    /* Data, contador de visitas e Kryptonita Vermelha (iguais ao portal) */
+    const now = new Date();
+    document.getElementById("currentDate").textContent =
+      String(now.getDate()).padStart(2, "0") + "/" + String(now.getMonth() + 1).padStart(2, "0") + "/" + now.getFullYear();
+
+    (function () {
+      let v = 98540;
+      try { v = (Number(localStorage.getItem("smallville_gifs_visits")) || 98540) + 1; localStorage.setItem("smallville_gifs_visits", v); } catch (e) {}
+      document.getElementById("visitCounter").innerHTML =
+        String(v).padStart(6, "0").split("").map(d => `<span class="digit">${d}</span>`).join("");
+    })();
+
+    /* Partículas de meteoros no fundo (mesmas do portal) */
+    (function () {
+      const c = document.getElementById("meteorCanvas");
+      const ctx = c.getContext("2d");
+      let w = (c.width = innerWidth), h = (c.height = innerHeight);
+      addEventListener("resize", () => { w = c.width = innerWidth; h = c.height = innerHeight; });
+      const ps = Array.from({ length: 45 }, () => ({
+        x: Math.random() * w, y: Math.random() * h, s: Math.random() * 2.5 + .5,
+        vx: (Math.random() - .5) * .4, vy: Math.random() * .6 + .2, o: Math.random() * .6 + .2
+      }));
+      if (matchMedia("(prefers-reduced-motion: reduce)").matches) return;
+      const mc = [0, 255, 102, 1];
+      (function tick() {
+        ctx.clearRect(0, 0, w, h);
+        const red = document.body.classList.contains("red-kryptonite-mode");
+        const green = document.body.classList.contains("green-kryptonite-mode");
+        const tgt = red ? [255, 34, 51, 1.8] : [0, 255, 102, green ? 1.5 : 1];
+        for (let i = 0; i < 4; i++) mc[i] += (tgt[i] - mc[i]) * 0.06;
+        const mult = mc[3];
+        const col = (mc[0] | 0) + ", " + (mc[1] | 0) + ", " + (mc[2] | 0);
+        ps.forEach(p => {
+          p.x += p.vx * mult; p.y += p.vy * mult;
+          if (p.y > h) { p.y = -5; p.x = Math.random() * w; }
+          if (p.x > w) p.x = 0; if (p.x < 0) p.x = w;
+          ctx.beginPath(); ctx.arc(p.x, p.y, p.s, 0, 6.283);
+          ctx.fillStyle = `rgba(${col}, ${p.o})`; ctx.shadowBlur = 8; ctx.shadowColor = `rgb(${col})`; ctx.fill();
+        });
+        requestAnimationFrame(tick);
+      })();
+    })();
+  </script>
+  <script src="kryptonita.js"></script>
+  <script src="gifs.js"></script>
+</body>
+</html>

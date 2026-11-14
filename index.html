@@ -96,8 +96,11 @@
           <span>Data Estelar: <span id="currentDate">14/10/2026</span></span>
         </div>
         <div class="toolbar-right">
-          <!-- Botão Modo Kryptonita Vermelha -->
-          <button class="kryptonite-mode-btn" id="btnRedK" title="Modo Chad Ativado">
+          <!-- Botões Modo Kryptonita (efeitos em kryptonita.js) -->
+          <button class="kryptonite-mode-btn green" id="btnGreenK" title="Kryptonita Verde">
+            <span class="stone-icon"></span> <span id="greenKText">Ativar Kryptonita Verde!</span>
+          </button>
+          <button class="kryptonite-mode-btn" id="btnRedK" title="Kryptonita Vermelha">
             <span class="stone-icon"></span> <span id="redKText">Ativar Kryptonita Vermelha!</span>
           </button>
         </div>
@@ -111,6 +114,7 @@
           <li><a href="#personagens" class="nav-tab">👥 Dossiê de Personagens</a></li>
           <li><a href="#kryptonitas" class="nav-tab">💎 Guia de Kryptonitas</a></li>
           <li><a href="#cronologia" class="nav-tab">⏳ Linha do Tempo</a></li>
+          <li><a href="gifs.html" class="nav-tab">🎞️ GIFs</a></li>
           <li><a href="#guestbook" class="nav-tab">✍️ Livro de Visitas</a></li>
         </ul>
       </nav>
@@ -170,6 +174,7 @@
               <li><a href="#personagens" class="quick-link">👥 Dossiê de Personagens</a></li>
               <li><a href="#temporadas" class="quick-link">📺 Pôsteres 1 a 10</a></li>
               <li><a href="#cronologia" class="quick-link">⏳ 1989 a 2018 com Fotos</a></li>
+              <li><a href="gifs.html" class="quick-link">🎞️ GIFs para Salvar</a></li>
             </ul>
           </div>
         </div>
@@ -262,6 +267,12 @@
           </div>
         </article>
  
+      </section>
+    </main>
+
+    <!-- ZONA LARGA (PC): personagens, kryptonitas, cronologia, livro de visitas -->
+    <div class="wide-zone">
+
         <!-- SEÇÃO 2: DOSSIÊ DE PERSONAGENS COM FOTOS REAIS -->
         <article class="retro-box window-box mb-4" id="personagens">
           <div class="box-header">
@@ -311,6 +322,8 @@
           </div>
         </article>
  
+        <div class="wide-split">
+
         <!-- SEÇÃO 3: LINHA DO TEMPO CRONOLÓGICA COM FOTOS REAIS (1989 - 2018) -->
         <article class="retro-box window-box mb-4" id="cronologia">
           <div class="box-header">
@@ -363,9 +376,10 @@
           </div>
         </article>
  
-      </section>
-    </main>
- 
+        </div>
+
+    </div>
+
     <!-- RODAPÉ RETRÔ ANOS 2000 -->
     <footer class="retro-footer">
       <div class="footer-weblinks">
@@ -392,5 +406,6 @@
   </div>
  
   <script src="app.js"></script>
+  <script src="kryptonita.js"></script>
 </body>
 </html>

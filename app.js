@@ -758,15 +758,22 @@ function initMeteorParticles() {
     });
   }
  
+  const mc = [0, 255, 102, 1];
+ 
   function animate() {
     ctx.clearRect(0, 0, w, h);
  
     const isRedMode = document.body.classList.contains("red-kryptonite-mode");
-    const pColor = isRedMode ? "255, 34, 51" : "0, 255, 102";
+    const isGreenMode = document.body.classList.contains("green-kryptonite-mode");
+    /* cor e velocidade deslizam até o alvo (sem trocar de repente) */
+    const tgt = isRedMode ? [255, 34, 51, 1.8] : [0, 255, 102, isGreenMode ? 1.5 : 1];
+    for (let i = 0; i < 4; i++) mc[i] += (tgt[i] - mc[i]) * 0.06;
+    const pColor = `${mc[0] | 0}, ${mc[1] | 0}, ${mc[2] | 0}`;
+    const mult = mc[3];
  
     particles.forEach(p => {
-      p.y += p.speedY;
-      p.x += p.speedX;
+      p.y += p.speedY * mult;
+      p.x += p.speedX * mult;
  
       if (p.y > h) {
         p.y = -5;
@@ -1046,23 +1053,7 @@ function initVisitorCounter() {
   counterElement.innerHTML = formattedStr.split("").map(d => `<span class="digit">${d}</span>`).join("");
 }
  
-function initRedKryptoniteMode() {
-  const btnRedK = document.getElementById("btnRedK");
-  const redKText = document.getElementById("redKText");
- 
-  btnRedK.addEventListener("click", () => {
-    document.body.classList.toggle("red-kryptonite-mode");
-    const isRed = document.body.classList.contains("red-kryptonite-mode");
- 
-    if (isRed) {
-      redKText.textContent = "Desativar Kryptonita Vermelha!";
-      alert("ALERTA: Modo Red Chad foi Ativado!");
-    } else {
-      redKText.textContent = "Ativar Kryptonita Vermelha!";
-      alert("O efeito Red Chad foi Desativado!");
-    }
-  });
-}
+// Kryptonita Vermelha e Verde: agora em kryptonita.js (sem alert, com animação no site todo)
  
 function initDateDisplay() {
   const dateElement = document.getElementById("currentDate");
@@ -1123,7 +1114,6 @@ document.addEventListener("DOMContentLoaded", () => {
   // 8. Livro de Visitas, Contador e Kryptonita Vermelha
   initGuestbook();
   initVisitorCounter();
-  initRedKryptoniteMode();
   initDateDisplay();
  
   // 9. Navegação suave entre abas do menu
